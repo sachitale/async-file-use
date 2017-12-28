@@ -67,20 +67,18 @@ public class AsyncFileWriter {
 		// At this point a new thread pool is created and all the Async work is done in that thread pool.
 		af.write(buf, attachment.filePosition, attachment, new SimpleCompletionHandler());
 		
-		// We need to wait here, until Asyn File Channel thread calls
-		// countdown on the latch
-		// If we dont call await the main thread will exit and incomplete file may be written to the disk
-
 		// create dummy data in main thread
 		int LOOP = attachment.ds.r.nextInt(2048);
 		System.out.printf("No of times the data loop with run (Each data enrty can be .5 MB long) %d\n",LOOP);
 		for(int i=0; i<LOOP; ++i) {
 			attachment.ds.createDummyData();
 		}
-		//System.out.println("done");
 		// blank data signals EOF
 		attachment.ds.createBlankData();
-		
+
+		// We need to wait here, until Asyn File Channel thread calls
+		// countdown on the latch
+		// If we dont call await the main thread will exit and incomplete file may be written to the disk
 		attachment.fileWriteComplete.await();
 	}
 
