@@ -26,8 +26,13 @@ public class AsyncFileWriter {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		File f = new File(args[0]);
-		Path p = f.toPath();
-		AsynchronousFileChannel af = AsynchronousFileChannel.open(p, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+		Path path = f.toPath();
+		AsynchronousFileChannel af = AsynchronousFileChannel.open(
+			path,
+			StandardOpenOption.CREATE,
+			StandardOpenOption.TRUNCATE_EXISTING,
+			StandardOpenOption.WRITE
+		);
 
 		Attachment attachment = new Attachment();
 		// The attachment object contains all the resources required by the file channel
