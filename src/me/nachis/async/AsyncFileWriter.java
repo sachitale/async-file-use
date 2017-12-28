@@ -56,7 +56,7 @@ public class AsyncFileWriter {
 
 		// use dummy datasource's utility method to create a ByteBuffer
 		byte[] data = attachment.ds.data_q.poll();
-		System.out.println(data.length);
+		// System.out.println(data.length);
 		ByteBuffer buf = ByteBuffer.wrap(data);
 		
 		// At this point a new thread pool is created and all the Async work is done in that thread pool.
@@ -68,7 +68,7 @@ public class AsyncFileWriter {
 
 		// create dummy data in main thread
 		int LOOP = attachment.ds.r.nextInt(2048);
-		System.out.println(LOOP);
+		System.out.printf("No of times the data loop with run (Each data enrty can be .5 MB long) %d\n",LOOP);
 		for(int i=0; i<LOOP; ++i) {
 			attachment.ds.createDummyData();
 		}
@@ -87,7 +87,7 @@ public class AsyncFileWriter {
 		}
 		
 		void createDummyData() {
-			int len = r.nextInt(1024*1024);
+			int len = r.nextInt(1024*512);
 			byte[] bytes = new byte[len];
 			Arrays.fill(bytes, (byte)'A');
 			data_q.add(bytes);
